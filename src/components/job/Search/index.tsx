@@ -1,0 +1,74 @@
+import { useEffect, useState } from 'react';
+import { IconSearch } from '@tabler/icons-react';
+import { useSearchParams } from 'react-router-dom';
+import { Button, Loader, TextInput } from '@mantine/core';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setQuery } from '@/store/slice/searchSlice';
+import classes from './styles.module.css';
+
+export default function Search() {
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.job);
+  const [query, setQueryInput] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+const search = useAppSelector((state) => state.search.query);
+
+  const handleSearch = () => {
+    dispatch(setQuery(query.trim()));
+
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (query.trim()) {
+      newSearchParams.set('query', query.trim());
+    } else {
+      newSearchParams.delete('query');
+    }
+
+    setSearchParams(newSearchParams);
+  };
+
+  useEffect(() => {
+    const queryParam = searchParams.get('query');
+    if (queryParam) {
+      setQueryInput(queryParam);
+      dispatch(setQuery(queryParam));
+    }
+  }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleSearch();
+  };
+
+
+  useEffect(() => {
+    if (search === '') {
+      setQueryInput('');
+    }
+  }, [search]);
+
+
+  return (
+    <div className={classes.container}>
+      <TextInput
+        placeholder="Должность или название компании"
+        leftSection={<IconSearch size={16} />}
+        radius="md"
+        size="md"
+        className={classes.input}
+        value={query}
+        onChange={(e) => setQueryInput(e.currentTarget.value)}
+        onKeyDown={handleKeyDown}
+        rightSection={isLoading ? <Loader size="xs" /> : null}
+      />
+      <Button
+        radius="md"
+        size="md"
+        className={classes.button}
+        onClick={handleSearch}
+        loading={isLoading}
+      >
+        Найти
+      </Button>
+    </div>
+  );
+}
