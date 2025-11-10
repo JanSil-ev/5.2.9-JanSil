@@ -1,6 +1,5 @@
-// src/pages/Error/Error.tsx
-import { Button, Card, Center, Group, Image, Stack, Text, Title } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { Button, Card, Center, Group, Image, Stack, Text, Title } from '@mantine/core';
 import classes from './styles.module.css';
 
 export default function Error() {
@@ -11,20 +10,16 @@ export default function Error() {
           <Group justify="space-between" align="flex-start">
             <div>
               <Title order={3} mb={4} className={classes.title}>
-                Упс! Такой страницы<br />не существует
+                Упс! Такой страницы
+                <br />
+                не существует
               </Title>
               <Text size="sm" className={classes.text}>
                 Давайте перейдём к началу.
               </Text>
             </div>
 
-            <Button
-              component={Link}
-              to="/"
-              color="blue"
-              size="xs"
-              className={classes.button}
-            >
+            <Button component={Link} to="/" color="blue" size="xs" className={classes.button}>
               На главную
             </Button>
           </Group>
@@ -41,4 +36,3 @@ export default function Error() {
     </Center>
   );
 }
-

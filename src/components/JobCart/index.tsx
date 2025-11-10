@@ -3,6 +3,7 @@ import { Badge, Button, Card, Group, Stack, Text } from '@mantine/core';
 import { JobCardProps } from '@/types';
 import { mapWorkFormatList } from '@/utils/mapWorkFormat';
 import styles from './styles.module.css';
+import { getWorkFormatType } from '@/utils/getWorkFormatType';
 
 export default function JobCard({
   id,
@@ -22,13 +23,6 @@ export default function JobCard({
 
   const mappedFormats = mapWorkFormatList(work_format);
 
-  const formatColorClass = (formatName: string) => {
-    const lower = formatName.toLowerCase();
-    if (lower.includes('офис')) return styles.badgeOffice;
-    if (lower.includes('удал')) return styles.badgeRemote;
-    if (lower.includes('гибрид')) return styles.badgeHybrid;
-    return '';
-  };
 
   return (
     <Card withBorder radius="lg" className={styles.card}>
@@ -67,7 +61,7 @@ export default function JobCard({
                   variant="light"
                   radius="sm"
                   size="xs"
-                  className={`${styles.badge} ${formatColorClass(format.name)}`}
+                  className={`${styles.badge} ${styles[`badge_${getWorkFormatType(format.name)}`]}`}
                 >
                   {format.name.toUpperCase()}
                 </Badge>

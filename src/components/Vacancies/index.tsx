@@ -3,15 +3,15 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Center, Loader, Paper, Stack, Text } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchJobById } from '@/store/slice/JobSlice';
+import Error from '../Error';
 import JobCard from '../JobCart';
 import styles from './styles.module.css';
-import Error from '../Error';
 
 export default function VacancyPage() {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { data, selectedVacancy, isLoading, error } = useAppSelector((state) => state.job);
 
@@ -27,17 +27,14 @@ export default function VacancyPage() {
     }
   }, [id, location.key, dispatch]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (error) {
       navigate('/error', { replace: true });
     }
   }, [error, navigate]);
 
-
   if (error) {
-    return (
-      <Error/>
-    );
+    return <Error />;
   }
 
   if (!vacancy) {

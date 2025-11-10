@@ -59,17 +59,17 @@
   border-radius: 4px;
 }
 
-.badgeOffice {
+.badge_office {
   background-color: #0F0F101A;
   color: #0F0F1080;
 }
 
-.badgeRemote {
+.badge_remote {
   background-color: #4263EB;
   color: #FFFFFF;
 }
 
-.badgeHybrid {
+.badge_hybrid {
   background-color: #0F0F10;
   color: #FFFFFF;
 }

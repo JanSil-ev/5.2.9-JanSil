@@ -11,7 +11,7 @@ export default function Search() {
   const { isLoading } = useAppSelector((state) => state.job);
   const [query, setQueryInput] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-const search = useAppSelector((state) => state.search.query);
+  const search = useAppSelector((state) => state.search.query);
 
   const handleSearch = () => {
     dispatch(setQuery(query.trim()));
@@ -39,13 +39,11 @@ const search = useAppSelector((state) => state.search.query);
     if (e.key === 'Enter') handleSearch();
   };
 
-
   useEffect(() => {
     if (search === '') {
       setQueryInput('');
     }
   }, [search]);
-
 
   return (
     <div className={classes.container}>

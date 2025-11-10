@@ -1,13 +1,10 @@
 .container {
   display: flex;
   gap: 10px;
-
   width: 100%;
   max-width: 600px;
-
   transition: box-shadow 0.2s ease;
 }
-
 
 .input {
   flex: 1;

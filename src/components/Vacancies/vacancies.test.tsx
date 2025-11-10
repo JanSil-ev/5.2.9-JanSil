@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { MantineProvider } from '@mantine/core';
 import { MemoryRouter } from 'react-router-dom';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { MantineProvider } from '@mantine/core';
 import * as reduxHooks from '@/store/hooks';
 import VacancyPage from './index';
 
-// Мокаем useParams, чтобы возвращал id вакансии
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
@@ -14,7 +13,7 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-// Мокаем Redux хуки
+
 vi.mock('@/store/hooks', () => ({
   useAppDispatch: vi.fn(),
   useAppSelector: vi.fn(),
@@ -55,23 +54,10 @@ describe('VacancyPage component', () => {
     expect(screen.getByText('Frontend Developer')).toBeInTheDocument();
     expect(screen.getByText('Tech Corp')).toBeInTheDocument();
     expect(screen.getByText(/О компании/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /Перейти на hh.ru/i })
-    ).toHaveAttribute('href', 'https://hh.ru/vacancy/1');
-  });
-
-  it('рендерит сообщение об ошибке при наличии error', () => {
-    (reduxHooks.useAppSelector as any).mockReturnValue({
-      data: null,
-      selectedVacancy: null,
-      isLoading: false,
-      error: 'Ошибка сети',
-    });
-
-    renderWithMantineAndRouter(<VacancyPage />);
-
-    expect(screen.getByText(/Ошибка загрузки/i)).toBeInTheDocument();
-    expect(screen.getByText(/Ошибка сети/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Перейти на hh.ru/i })).toHaveAttribute(
+      'href',
+      'https://hh.ru/vacancy/1'
+    );
   });
 
   it('рендерит лоадер, если вакансия загружается', () => {

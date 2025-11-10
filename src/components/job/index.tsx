@@ -18,21 +18,19 @@ export default function JobPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams<{ city?: string }>();
-  
+
   const city = useAppSelector((state) => state.filters.city);
   const [activeTab, setActiveTab] = useState<string>('all');
 
-
   useEffect(() => {
     if (params.city) {
-      const tabValue = Object.keys(cityMap).find(key => cityMap[key] === params.city);
+      const tabValue = Object.keys(cityMap).find((key) => cityMap[key] === params.city);
       if (tabValue) {
         setActiveTab(tabValue);
         dispatch(setCity(params.city));
       }
     }
   }, [params.city, dispatch]);
-
 
   const handleTabChange = (value: string | null) => {
     if (!value) return;
@@ -43,7 +41,7 @@ export default function JobPage() {
     if (newValue === 'all') {
       dispatch(setCity('all'));
       navigate('/vacancies');
-    }  else {
+    } else {
       const citySlug = cityMap[newValue];
       dispatch(setCity(citySlug));
       navigate(`/vacancies/${citySlug}`);
@@ -51,10 +49,10 @@ export default function JobPage() {
   };
 
   useEffect(() => {
-    if(city === 'all') {
-      setActiveTab('all')
+    if (city === 'all') {
+      setActiveTab('all');
     }
-  }, [city])
+  }, [city]);
 
   return (
     <div className={styles.container}>
@@ -76,7 +74,8 @@ export default function JobPage() {
                 Москва
               </Tabs.Tab>
               <Tabs.Tab
-                value="2" size={14}
+                value="2"
+                size={14}
                 className={`${styles.tab} ${activeTab === '2' ? styles.tabActive : ''}`}
               >
                 Санкт-Петербург

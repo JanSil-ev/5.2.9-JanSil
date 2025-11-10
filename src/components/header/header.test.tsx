@@ -1,8 +1,25 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MantineProvider } from '@mantine/core';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Header from '.';
+import { describe, expect, it, vi } from 'vitest';
+import { MantineProvider } from '@mantine/core';
+import Header from './index';
+
+const mockDispatch = vi.fn();
+const mockNavigate = vi.fn();
+
+vi.mock('../../store/hooks', () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: () => ({ skills: [] }),
+}));
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+    useLocation: () => ({ pathname: '/about' }),
+  };
+});
 
 function renderWithProviders(ui: React.ReactElement) {
   return render(
@@ -25,16 +42,13 @@ describe('Header component', () => {
     expect(screen.getByText('Обо мне')).toBeInTheDocument();
   });
 
-  it('ссылка "Вакансии FE" должна быть активной', () => {
+  it('клик по "Вакансии FE" вызывает dispatch и navigate', () => {
     renderWithProviders(<Header />);
-    const activeLink = screen.getByText('Вакансии FE').closest('a');
-    expect(activeLink?.className).toMatch(/active/);
-  });
 
-  it('кнопка "Обо мне" должна содержать аватар и текст', () => {
-    renderWithProviders(<Header />);
-    const aboutButton = screen.getByText('Обо мне').closest('button');
-    expect(aboutButton).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
+    const link = screen.getByText('Вакансии FE');
+    fireEvent.click(link);
+
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('/vacancies');
   });
 });

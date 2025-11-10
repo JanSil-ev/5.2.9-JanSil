@@ -1,8 +1,8 @@
 import JobCard from '.';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { MantineProvider } from '@mantine/core';
-import { MemoryRouter } from 'react-router-dom';
 import { JobCardProps } from '@/types';
 
 function renderWithMantineAndRouter(ui: React.ReactElement) {

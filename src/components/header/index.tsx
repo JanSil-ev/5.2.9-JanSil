@@ -1,16 +1,14 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Avatar } from '@mantine/core';
-import hh from '../image/hh.png';
-import styles from './styles.module.css';
-import { useEffect } from 'react';
-import { fetchJob } from '@/store/slice/JobSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setCity } from '@/store/slice/filtersSlice';
 import { setQuery } from '@/store/slice/searchSlice';
-import { removeSkill, renameSkills, setSkills } from '@/store/slice/skillsSlice';
+import { renameSkills } from '@/store/slice/skillsSlice';
+import hh from '../image/hh.png';
+import styles from './styles.module.css';
 
 export const Header = () => {
- const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const skills = useAppSelector((state) => state.skills.skills);
@@ -18,15 +16,13 @@ export const Header = () => {
   const handleVacanciesClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // Перенаправляем на страницу /vacancies, если мы не на ней
     if (location.pathname !== '/vacancies') {
       navigate('/vacancies');
     }
 
-    // Делаем запрос с базовыми начальными значениями
     dispatch(setCity('all'));
     dispatch(setQuery(''));
-    dispatch(renameSkills())
+    dispatch(renameSkills());
   };
 
   return (
@@ -37,7 +33,11 @@ export const Header = () => {
       </div>
 
       <nav className={styles.nav}>
-        <Link to="/vacancies" className={`${styles.link} ${styles.active}`} onClick={handleVacanciesClick}>
+        <Link
+          to="/vacancies"
+          className={`${styles.link} ${styles.active}`}
+          onClick={handleVacanciesClick}
+        >
           Вакансии FE <span className={styles.dot}></span>
         </Link>
 

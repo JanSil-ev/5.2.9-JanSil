@@ -1,7 +1,7 @@
-import ListJob from '.';
 import { render, screen } from '@test-utils';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ListJob } from './index';
 
 const mockDispatch = vi.fn();
 let mockState: any = {};
@@ -89,7 +89,7 @@ describe('ListJob component', () => {
 
     renderWithRouter(<ListJob />);
 
-     expect(screen.getByText('2')).toBeInTheDocument();
-  expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
   });
 });

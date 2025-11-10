@@ -26,15 +26,13 @@ describe('Skills component', () => {
     vi.clearAllMocks();
     mockState = {
       skills: { skills: ['React', 'TypeScript'] },
-      filters: { city: 'all' },
     };
   });
 
-  it('рендерит навыки и селект города', () => {
+  it('рендерит навыки ', () => {
     renderWithRouter(<Skills />);
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
   it('добавляет новый навык по клику на кнопку', () => {
@@ -51,15 +49,5 @@ describe('Skills component', () => {
     const pill = screen.getByTestId('React');
     fireEvent.click(pill.querySelector('button')!);
     expect(removeSkill).toHaveBeenCalledWith('React');
-  });
-
-  it('изменяет город при выборе из Select', async () => {
-    renderWithRouter(<Skills />);
-
-    const selectControl = screen.getByRole('combobox');
-    fireEvent.mouseDown(selectControl);
-
-    const option = await screen.findByText('Москва');
-    fireEvent.click(option);
   });
 });

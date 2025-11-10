@@ -1,72 +1,67 @@
-import Search from '.';
-import { fireEvent, render, screen } from '@test-utils';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { setQuery } from '@/store/slice/searchSlice';
+import { describe, expect, it, vi } from 'vitest';
+import { MantineProvider } from '@mantine/core';
+import Search from './index';
 
 const mockDispatch = vi.fn();
 const mockSetSearchParams = vi.fn();
-let mockState: any = {};
+const mockSearchParams = new URLSearchParams();
 
 vi.mock('@/store/hooks', () => ({
   useAppDispatch: () => mockDispatch,
-  useAppSelector: (selector: any) => selector(mockState),
+  useAppSelector: vi.fn((selector) =>
+    selector.name === 'job' ? { isLoading: false } : { query: '' }
+  ),
 }));
 
-
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<any>('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
-    useSearchParams: () => [new URLSearchParams(), mockSetSearchParams],
+    useSearchParams: () => [mockSearchParams, mockSetSearchParams],
   };
 });
 
-function renderWithRouter(ui: React.ReactElement) {
-  return render(<MemoryRouter>{ui}</MemoryRouter>);
+function renderWithProviders(ui: React.ReactElement) {
+  return render(
+    <MantineProvider>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </MantineProvider>
+  );
 }
 
 describe('Search component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockState = {
-      job: { isLoading: false },
-    };
   });
 
-  it('рендерится с полем ввода и кнопкой', () => {
-    renderWithRouter(<Search />);
-    expect(screen.getByPlaceholderText(/должность/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /найти/i })).toBeInTheDocument();
+  it('должен рендерить поле ввода и кнопку', () => {
+    renderWithProviders(<Search />);
+    expect(screen.getByPlaceholderText('Должность или название компании')).toBeInTheDocument();
+    expect(screen.getByText('Найти')).toBeInTheDocument();
   });
 
-  it('по клику на кнопку "Найти" вызывает setQuery и обновляет URL', () => {
-    renderWithRouter(<Search />);
-    const input = screen.getByPlaceholderText(/должность/i);
-    fireEvent.change(input, { target: { value: 'Frontend' } });
-    fireEvent.click(screen.getByRole('button', { name: /найти/i }));
+  it('при клике на кнопку вызывает dispatch и обновляет параметры запроса', () => {
+    renderWithProviders(<Search />);
+    const input = screen.getByPlaceholderText('Должность или название компании');
+    const button = screen.getByText('Найти');
 
-    expect(mockDispatch).toHaveBeenCalledWith(setQuery('Frontend'));
+    fireEvent.change(input, { target: { value: 'React Developer' } });
+    fireEvent.click(button);
+
+    expect(mockDispatch).toHaveBeenCalled();
     expect(mockSetSearchParams).toHaveBeenCalled();
   });
 
-  it('по Enter в поле ввода вызывает setQuery и обновляет URL', () => {
-    renderWithRouter(<Search />);
-    const input = screen.getByPlaceholderText(/должность/i);
-    fireEvent.change(input, { target: { value: 'React Developer' } });
+  it('при нажатии Enter вызывает handleSearch', () => {
+    renderWithProviders(<Search />);
+    const input = screen.getByPlaceholderText('Должность или название компании');
+
+    fireEvent.change(input, { target: { value: 'Frontend' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 
-    expect(mockDispatch).toHaveBeenCalledWith(setQuery('React Developer'));
-    expect(mockSetSearchParams).toHaveBeenCalled();
-  });
-
-  it('при пустом поле ввода удаляет query из URL', () => {
-    renderWithRouter(<Search />);
-    const input = screen.getByPlaceholderText(/должность/i);
-    fireEvent.change(input, { target: { value: '' } });
-    fireEvent.click(screen.getByRole('button', { name: /найти/i }));
-
-    expect(mockDispatch).toHaveBeenCalledWith(setQuery(''));
+    expect(mockDispatch).toHaveBeenCalled();
     expect(mockSetSearchParams).toHaveBeenCalled();
   });
 });

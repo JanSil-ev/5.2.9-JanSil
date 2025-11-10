@@ -79,21 +79,6 @@ export default function Skills() {
         </PillGroup>
       </div>
 
-      {/* <div className={classes.container}>
-        <Select
-          allowDeselect={false}
-          role="combobox"
-          placeholder="Все города"
-          value={city}
-          onChange={handleCityChange}
-          data={[
-            { value: 'all', label: 'Все города' },
-            { value: '1', label: 'Москва' },
-            { value: '2', label: 'Санкт-Петербург' },
-          ]}
-          leftSection={<IconMapPin size={16} />}
-        />
-      </div> */}
     </div>
   );
 }
