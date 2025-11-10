@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   base: '/5.2.9-JanSil/',
+   publicDir: 'public',
   test: {
     globals: true,
     environment: 'jsdom',
