@@ -24,14 +24,14 @@ function Layout() {
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Layout />}>
+    <Route element={<Layout />} errorElement={<Error/>}>
       <Route index element={<JobPage />} />
       <Route path="/vacancies/petersburg" element={<JobPage />} />
       <Route path="/vacancies/moscow" element={<JobPage />} />
       <Route path="/vacancies" element={<JobPage />} />
-      <Route path="/vacancies/:id" element={<VacanciesPage />} />
+      <Route path="/vacancies/:id" element={<VacanciesPage />} errorElement={<Error/>}/>
       <Route path="/about" element={<div>About Page</div>} />
-      <Route path="*" element={<Error/>} />
+      <Route path="404" element={<Error/>} />
     </Route>
   ),
   {

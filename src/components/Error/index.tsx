@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useRouteError } from 'react-router-dom';
 import { Button, Card, Center, Group, Image, Stack, Text, Title } from '@mantine/core';
 import classes from './styles.module.css';
 
 export default function Error() {
+const error = useRouteError()
+
+
   return (
     <Center className={classes.wrapper}>
       <Card shadow="sm" className={classes.card}>
