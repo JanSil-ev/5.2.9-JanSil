@@ -2,17 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>   Упс! Такой страницы не сушествует</title>
+    <title>   ты в говне и это бред</title>
   </head>
   <body>
     
     <script>
-      const redirect = window.location.pathname + window.location.search + window.location.hash;
+      const redirect =
+        window.location.pathname + window.location.search + window.location.hash;
 
-      // Если проект лежит в подпапке (например, /5.2.9-JanSil/)
-      // УБЕДИСЬ, что путь ниже совпадает с твоим basename в router
+      // твой base (обязательно совпадает с basename)
       const base = '/5.2.9-JanSil';
+
+      // сохраняем путь в sessionStorage, чтобы React мог восстановить
       sessionStorage.setItem('redirect', redirect.replace(base, ''));
+
+      // редиректим обратно на index.html, который лежит в /5.2.9-JanSil/
       window.location.replace(base + '/');
     </script>
   </body>
