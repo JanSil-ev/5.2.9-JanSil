@@ -1,104 +1,26 @@
-<!-- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="ru">
   <head>
-    <meta charset="utf-8" />
-    <title>Redirecting to Error page...</title>
-    <script type="text/javascript">
-      // Любой неправильный путь сразу на /404
-      window.location.replace('/5.2.9-JanSil/404');
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+    />
+    <title>Страница не найдена</title>
+    <script>
+      (function () {
+        const redirect =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash;
+
+        sessionStorage.setItem('gh_redirect', redirect);
+        window.location.replace('/5.2.9-JanSil/');
+      })();
     </script>
   </head>
   <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Страница не найдена</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f6f6f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 20px;
-    }
-
-    .card {
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      padding: 20px;
-      max-width: 500px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .title {
-      font-size: 24px;
-      margin: 0 0 8px 0;
-    }
-
-    .text {
-      font-size: 14px;
-      margin: 0;
-      color: #555;
-    }
-
-    .button {
-      display: inline-block;
-      background-color: #4263EB;
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background-color: #364FC7;
-    }
-
-    .group {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .image {
-      width: 100%;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-  </style>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="card">
-      <div class="group">
-        <div>
-          <h3 class="title">Упс! Такой страницы<br>не существует</h3>
-          <p class="text">Давайте перейдём к началу.</p>
-        </div>
-        <a href="/5.2.9-JanSil/" class="button">На главную</a>
-      </div>
-      <img src="../src/components/image/Cat.gif" alt="Funny cat" class="image">
-    </div>
-  </div>
-</body>
 </html>
