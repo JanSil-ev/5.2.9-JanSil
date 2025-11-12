@@ -32,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="/vacancies/:id" element={<VacanciesPage />} errorElement={<Error/>}/>
       <Route path="/about" element={<div>About Page</div>} />
       <Route path="*" element={<Error />} />
+      <Route path="/404" element={<Error />} />
     </Route>
   ),
   {
