@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Outlet,
   Route,
   Router,
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       {/* <Route path="*" element={<Error />} /> */}
     </Route>
           <Route path="*" element={<Error />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
           
           </>
   ),
