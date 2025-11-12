@@ -2,22 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>   ты в говне и это бред</title>
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+      // Получаем текущий путь (например /vacancies/mosco)
+      var redirect = window.location.pathname.replace('/5.2.9-JanSil', '');
+      // Сохраняем его, чтобы React мог восстановить
+      sessionStorage.setItem('redirect', redirect);
+      // Перенаправляем на index.html (в рамках проекта)
+      window.location.replace('/5.2.9-JanSil/');
+    </script>
   </head>
   <body>
-    
-    <script>
-      const redirect =
-        window.location.pathname + window.location.search + window.location.hash;
-
-      // твой base (обязательно совпадает с basename)
-      const base = '/5.2.9-JanSil';
-
-      // сохраняем путь в sessionStorage, чтобы React мог восстановить
-      sessionStorage.setItem('redirect', redirect.replace(base, ''));
-
-      // редиректим обратно на index.html, который лежит в /5.2.9-JanSil/
-      window.location.replace(base + '/404');
-    </script>
   </body>
 </html>
