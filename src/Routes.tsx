@@ -35,7 +35,7 @@ const router = createBrowserRouter(
       <Route path="/about" element={<div>About Page</div>} />
       {/* <Route path="*" element={<Error />} /> */}
     </Route>
-          <Route path="*" element={<Error />} />
+          <Route path="/404" element={<Error />} />
           <Route path="*" element={<Navigate to="/404" replace />} />
           
           </>
