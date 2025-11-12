@@ -1,10 +1,8 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Navigate,
   Outlet,
   Route,
-  Router,
   RouterProvider,
 } from 'react-router-dom';
 import Header from './components/header';
@@ -23,7 +21,7 @@ function Layout() {
   );
 }
 
-const router = createBrowserRouter(
+export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
     <Route element={<Layout />} errorElement={<Error/>}>
@@ -33,17 +31,23 @@ const router = createBrowserRouter(
       <Route path="/vacancies" element={<JobPage />} />
       <Route path="/vacancies/:id" element={<VacanciesPage />} errorElement={<Error/>}/>
       <Route path="/about" element={<div>About Page</div>} />
-      {/* <Route path="*" element={<Error />} /> */}
+      <Route path="*" element={<Error />} />
     </Route>
-          <Route path="/404" element={<Error />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-          
           </>
   ),
   {
     basename: '/5.2.9-JanSil/',
   }
 );
+
+if (typeof window !== 'undefined') {
+  const redirect = sessionStorage.getItem('gh_redirect');
+
+  if (redirect) {
+    sessionStorage.removeItem('gh_redirect');
+    router.navigate(redirect, { replace: true });
+  }
+}
 
 export default function AppRoutes() {
   return <RouterProvider router={router} />;
