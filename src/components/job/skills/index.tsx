@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IconPlus } from '@tabler/icons-react';
 import { useSearchParams } from 'react-router-dom';
-import { ActionIcon, Pill, PillGroup, Select, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Pill, PillGroup, Text, TextInput } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 import { addSkill, removeSkill, setSkills } from '@/store/slice/skillsSlice';
@@ -19,8 +19,10 @@ export default function Skills() {
 
     const trimmed = inputValue.trim();
     if (!trimmed || skills.includes(trimmed)) return;
+
     const updated = [...skills, trimmed];
     newSearchParams.set('skills', updated.toString());
+
     setSearchParams(newSearchParams);
     dispatch(addSkill(trimmed));
     setInputValue('');
@@ -29,22 +31,30 @@ export default function Skills() {
   const handleRemoveSkill = (skill: string) => {
     const updated = skills.filter((s) => s !== skill);
     const newSearchParams = new URLSearchParams(searchParams);
-    if (skills.length === 1) {
+
+    if (updated.length === 0) {
       newSearchParams.delete('skills');
     } else {
       newSearchParams.set('skills', updated.toString());
     }
+
     setSearchParams(newSearchParams);
     dispatch(removeSkill(skill));
-    console.log(skills)
   };
 
   useEffect(() => {
     const queryParam = searchParams.get('skills');
-    if (queryParam) {
-      dispatch(setSkills(queryParam.split(',')));
+    if (!queryParam || !queryParam.trim()) return;
+
+    const parsed = queryParam
+      .split(',')
+      .map((skill) => skill.trim())
+      .filter(Boolean);
+
+    if (parsed.length > 0) {
+      dispatch(setSkills(parsed));
     }
-  }, []);
+  }, [dispatch, searchParams]);
 
 
   return (

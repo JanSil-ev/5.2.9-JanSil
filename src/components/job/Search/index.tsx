@@ -9,17 +9,17 @@ import classes from './styles.module.css';
 export default function Search() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.job);
-  const [query, setQueryInput] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = useAppSelector((state) => state.search.query);
+  const [query, setQueryInput] = useState(() => searchParams.get('query') ?? '');
 
   const handleSearch = () => {
-    dispatch(setQuery(query.trim()));
+    const trimmedQuery = query.trim();
+    dispatch(setQuery(trimmedQuery));
 
     const newSearchParams = new URLSearchParams(searchParams);
 
-    if (query.trim()) {
-      newSearchParams.set('query', query.trim());
+    if (trimmedQuery) {
+      newSearchParams.set('query', trimmedQuery);
     } else {
       newSearchParams.delete('query');
     }
@@ -32,18 +32,15 @@ export default function Search() {
     if (queryParam) {
       setQueryInput(queryParam);
       dispatch(setQuery(queryParam));
+    } else {
+      setQueryInput('');
+      dispatch(setQuery(''));
     }
-  }, []);
+  }, [dispatch, searchParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSearch();
   };
-
-  useEffect(() => {
-    if (search === '') {
-      setQueryInput('');
-    }
-  }, [search]);
 
   return (
     <div className={classes.container}>
