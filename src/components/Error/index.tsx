@@ -1,6 +1,7 @@
 import { Link, useRouteError } from 'react-router-dom';
 import { Button, Card, Center, Group, Image, Stack, Text, Title } from '@mantine/core';
 import classes from './styles.module.css';
+import catGif from '../image/Cat.gif';
 
 export default function Error() {
 const error = useRouteError()
@@ -27,13 +28,7 @@ const error = useRouteError()
             </Button>
           </Group>
 
-          <Image
-            src="src\components\image\Cat.gif"
-            alt="Funny cat"
-            radius="md"
-            fit="cover"
-            className={classes.image}
-          />
+          <Image src={catGif} alt="Funny cat" radius="md" fit="cover" className={classes.image} />
         </Stack>
       </Card>
     </Center>
