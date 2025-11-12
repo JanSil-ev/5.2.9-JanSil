@@ -9,13 +9,15 @@
     <title>Страница не найдена</title>
     <script>
       (function () {
-        const redirect =
-          window.location.pathname +
-          window.location.search +
-          window.location.hash;
+        const base = '/5.2.9-JanSil';
+        const { pathname, search, hash } = window.location;
+        const cleanedPath = pathname.startsWith(base)
+          ? pathname.slice(base.length)
+          : pathname;
+        const redirect = (cleanedPath || '/') + search + hash;
 
         sessionStorage.setItem('gh_redirect', redirect);
-        window.location.replace('/5.2.9-JanSil/');
+        window.location.replace(base + '/');
       })();
     </script>
   </head>
