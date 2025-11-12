@@ -7,9 +7,13 @@
   <body>
     
     <script>
-      const redirect = window.location.pathname.replace('/5.2.9-JanSil', '');
-      sessionStorage.setItem('redirect', redirect);
-      window.location.replace('/5.2.9-JanSil/');
+      const redirect = window.location.pathname + window.location.search + window.location.hash;
+
+      // Если проект лежит в подпапке (например, /5.2.9-JanSil/)
+      // УБЕДИСЬ, что путь ниже совпадает с твоим basename в router
+      const base = '/5.2.9-JanSil';
+      sessionStorage.setItem('redirect', redirect.replace(base, ''));
+      window.location.replace(base + '/');
     </script>
   </body>
 </html>
