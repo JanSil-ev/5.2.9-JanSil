@@ -2,14 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Redirecting...</title>
+    <title>Redirecting to Error page...</title>
     <script type="text/javascript">
-      // Получаем текущий путь (например /vacancies/mosco)
-      var redirect = window.location.pathname.replace('/5.2.9-JanSil', '');
-      // Сохраняем его, чтобы React мог восстановить
-      sessionStorage.setItem('redirect', redirect);
-      // Перенаправляем на index.html (в рамках проекта)
-      window.location.replace('/5.2.9-JanSil/');
+      // Любой неправильный путь сразу на /404
+      window.location.replace('/5.2.9-JanSil/404');
     </script>
   </head>
   <body>
