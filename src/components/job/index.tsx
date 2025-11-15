@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Tabs } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setCity } from '@/store/slice/filtersSlice';
@@ -8,51 +8,51 @@ import Search from './Search';
 import Skills from './skills';
 import Title from './title';
 import styles from './styles.module.css';
+import { fetchJob } from '@/store/slice/JobSlice';
+
+
+export default function JobPage() {
+const dispatch = useAppDispatch();
+const navigate = useNavigate();
+const params = useParams<{ city?: string }>();
+
+const city = useAppSelector((state) => state.filters.city);
+const query = useAppSelector((state) => state.search.query);
+const skills = useAppSelector((state) => state.skills.skills);
+
+const [activeTab, setActiveTab] = useState<string>();
 
 const cityMap: Record<string, string> = {
   '1': 'moscow',
   '2': 'petersburg',
 };
 
-export default function JobPage() {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const params = useParams<{ city?: string }>();
+const handleTabChange = (value: string | null) => {
 
-  const city = useAppSelector((state) => state.filters.city);
-  const [activeTab, setActiveTab] = useState<string>('all');
+  if (value === activeTab) {
+    setActiveTab('all');
+    dispatch(setCity(''));
+    navigate(`/vacancies`);
+    dispatch(fetchJob({ query, city: '', skills}));
+    return;
+  }
 
-  useEffect(() => {
-    if (params.city) {
-      const tabValue = Object.keys(cityMap).find((key) => cityMap[key] === params.city);
-      if (tabValue) {
-        setActiveTab(tabValue);
-        dispatch(setCity(params.city));
-      }
-    }
-  }, [params.city, dispatch]);
 
-  const handleTabChange = (value: string | null) => {
-    if (!value) return;
+  if (value) {
+    setActiveTab(value);
+    const cityParam = cityMap[value] || '';
+    dispatch(setCity(cityParam));
+    navigate(`/vacancies/${cityParam}`);
+console.log(cityParam)
+    dispatch(fetchJob({ query, city: cityParam, skills }));
+  }
+};
 
-    const newValue = activeTab === value ? 'all' : value;
-    setActiveTab(newValue);
+useEffect(() => {
+console.log(activeTab)
+}, []);
 
-    if (newValue === 'all') {
-      dispatch(setCity('all'));
-      navigate('/vacancies');
-    } else {
-      const citySlug = cityMap[newValue];
-      dispatch(setCity(citySlug));
-      navigate(`/vacancies/${citySlug}`);
-    }
-  };
 
-  useEffect(() => {
-    if (city === 'all') {
-      setActiveTab('all');
-    }
-  }, [city]);
 
   return (
     <div className={styles.container}>

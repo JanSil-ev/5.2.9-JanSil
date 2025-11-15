@@ -27,16 +27,6 @@ export default function Search() {
     setSearchParams(newSearchParams);
   };
 
-  useEffect(() => {
-    const queryParam = searchParams.get('query');
-    if (queryParam) {
-      setQueryInput(queryParam);
-      dispatch(setQuery(queryParam));
-    } else {
-      setQueryInput('');
-      dispatch(setQuery(''));
-    }
-  }, [dispatch, searchParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSearch();
