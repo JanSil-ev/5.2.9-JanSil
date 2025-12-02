@@ -9,6 +9,7 @@ import Skills from './skills';
 import Title from './title';
 import styles from './styles.module.css';
 import { fetchJob } from '@/store/slice/JobSlice';
+import { error } from 'console';
 
 
 export default function JobPage() {
@@ -47,6 +48,13 @@ console.log(cityParam)
     dispatch(fetchJob({ query, city: cityParam, skills }));
   }
 };
+
+
+
+
+
+
+console.log(error)
 
 useEffect(() => {
 console.log(activeTab)
